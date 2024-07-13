@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naruto OC Creator - Choose Feats</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1em;
+            background-color: #3b5998;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2a4473;
+        }
+
+        #featResult {
+            margin-top: 30px;
+            font-size: 1.2em;
+        }
+
+        #featType {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #featPrompt {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choose Your Character's Feats</h1>
+        <p>Click the button below to spin for your character's feats:</p>
+        <button onclick="spinFeats()">Spin for Feats</button>
+        <div id="featResult" class="hidden">
+            <p id="featType"></p>
+            <p id="featPrompt"></p>
+            <button id="chooseFeatBtn" onclick="chooseFeat()" class="hidden">Choose this Feat</button>
+        </div>
+    </div>
+
+    <script>
+        const goodFeats = [
+            "Saves a village from bandit attacks without seeking reward.",
+            "Rescues a lost child and reunites them with their family.",
+            "Protects a teammate from an enemy's lethal attack, risking their own life.",
+            "Helps rebuild a village after a natural disaster, showing kindness and leadership.",
+            "Mediates a peaceful resolution between rival ninja factions to prevent war."
+        ];
+
+        const evilFeats = [
+            "Betrayal of a trusted ally for personal gain or power.",
+            "Sabotages a peace negotiation between villages to prolong conflict.",
+            "Commits espionage and steals classified information from another village.",
+            "Assassinates a political figure to destabilize a rival village's leadership.",
+            "Exploits a village's resources for personal profit, causing hardship for its residents."
+        ];
+
+        const featResultElem = document.getElementById('featResult');
+        const featTypeElem = document.getElementById('featType');
+        const featPromptElem = document.getElementById('featPrompt');
+        const chooseFeatBtn = document.getElementById('chooseFeatBtn');
+
+        function spinFeats() {
+            // Randomly select good or evil feat
+            const isGoodFeat = Math.random() < 0.5; // 50% chance for good or evil
+            const featsArray = isGoodFeat ? goodFeats : evilFeats;
+            const randomIndex = Math.floor(Math.random() * featsArray.length);
+            const selectedFeat = featsArray[randomIndex];
+
+            // Retrieve user data from localStorage
+            const userName = localStorage.getItem('userName');
+            const userVillage = localStorage.getItem('userVillage');
+            const userClan = localStorage.getItem('ocClan');
+            const ocRank = localStorage.getItem('ocRank');
+
+            // Display the selected feat
+            featResultElem.classList.remove('hidden');
+            featTypeElem.textContent = isGoodFeat ? "Good Feat" : "Evil Feat";
+            featPromptElem.textContent = `${userName} of the ${userClan} Clan of the ${userVillage} village has done "${selectedFeat}"`;
+
+            // Show the choose button after spinning
+            chooseFeatBtn.classList.remove('hidden');
+        }
+
+        function chooseFeat() {
+            // Redirect to the next page after choosing feat (replace with actual URL)
+            window.location.href = 'analysis.html';
+        }
+    </script>
+</body>
+</html>
