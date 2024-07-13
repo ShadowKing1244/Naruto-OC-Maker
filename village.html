@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naruto OC Creator - Choose Village</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            background-image: url('https://preview.redd.it/which-village-would-you-preset-yourself-in-if-you-had-a-v0-4ccrp68ya0kb1.jpg?width=1080&crop=smart&auto=webp&s=90e40d9826669b18646010297c0731edfa0c1033');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+        option {
+            font-size: 1em;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1em;
+            background-color: #3b5998;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2a4473;
+        }
+
+        #userInfo {
+            font-size: 1.2em;
+            margin-top: 30px;
+        }
+
+        #userInfo span {
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choose Your Village</h1>
+        <p>Select a village to learn more about it and its associated clans:</p>
+        <select id="villageSelect">
+            <option value="konoha">Konohagakure (Village Hidden in the Leaves)</option>
+            <option value="suna">Sunagakure (Village Hidden in the Sand)</option>
+            <option value="kiri">Kirigakure (Village Hidden in the Mist)</option>
+            <option value="kumo">Kumogakure (Village Hidden in the Clouds)</option>
+            <option value="iwa">Iwagakure (Village Hidden in the Stones)</option>
+            <option value="ame">Amegakure (Village Hidden in the Rain)</option>
+            <option value="taki">Takigakure (Village Hidden in the Waterfalls)</option>
+            <option value="kusa">Kusagakure (Village Hidden in the Grass)</option>
+            <option value="oto">Otogakure (Village Hidden in the Sound)</option>
+        </select>
+        <div id="villageInfo" class="hidden">
+            <h2 id="villageName"></h2>
+            <p id="villageDescription"></p>
+            <p><strong>Clans:</strong></p>
+            <ul id="clanList"></ul>
+            <button onclick="chooseVillage()">Choose Village</button>
+        </div>
+        <div id="userInfo" class="hidden">
+            <p>Your name: <span id="userName"></span></p>
+            <p>Your village: <span id="userVillage"></span></p>
+        </div>
+    </div>
+
+    <script>
+        const villageData = {
+            konoha: {
+                name: "Konohagakure",
+                description: "Located in the Land of Fire, Konohagakure is known for its strong military force and nurturing many powerful ninjas.",
+                clans: ["Uchiha", "Hyuga", "Senju", "Nara", "Akimichi", "Yamanaka", "Inuzuka", "Aburame"]
+            },
+            suna: {
+                name: "Sunagakure",
+                description: "Located in the Land of Wind, Sunagakure is known for its expertise in puppetry techniques and its harsh desert environment.",
+                clans: ["Kazekage", "Puppet Master"]
+            },
+            kiri: {
+                name: "Kirigakure",
+                description: "Located in the Land of Water, Kirigakure is known for its misty environment and producing strong swordsmen.",
+                clans: ["Hozuki", "Kaguya", "Yuki"]
+            },
+            kumo: {
+                name: "Kumogakure",
+                description: "Located in the Land of Lightning, Kumogakure is known for its strong military and lightning release techniques.",
+                clans: ["Raikage", "Hyuga", "Hatake"]
+            },
+            iwa: {
+                name: "Iwagakure",
+                description: "Located in the Land of Earth, Iwagakure is known for its sturdy defenses and earth-style ninjutsu.",
+                clans: ["Tsuchikage", "Akimichi", "Kurotsuchi"]
+            },
+            ame: {
+                name: "Amegakure",
+                description: "Known for its constant rain and skilled assassins, Amegakure operates as a hidden village with a unique political structure.",
+                clans: ["Pain", "Hanzo", "Konan"]
+            },
+            taki: {
+                name: "Takigakure",
+                description: "A minor village known for its scenic waterfall landscapes and unique village structure.",
+                clans: ["Guren", "Kamizuru", "Mubi"]
+            },
+            kusa: {
+                name: "Kusagakure",
+                description: "Known for its grassy terrain and vegetation-based ninjutsu, Kusagakure operates as a minor hidden village.",
+                clans: ["Orochimaru", "Shiranui"]
+            },
+            oto: {
+                name: "Otogakure",
+                description: "Located outside the Five Great Shinobi Countries, Otogakure is known for its sound-based ninjutsu and unique village structure.",
+                clans: ["Orochimaru", "Kidomaru"]
+            }
+        };
+
+        const villageSelect = document.getElementById('villageSelect');
+        const villageInfo = document.getElementById('villageInfo');
+        const villageNameElem = document.getElementById('villageName');
+        const villageDescriptionElem = document.getElementById('villageDescription');
+        const clanListElem = document.getElementById('clanList');
+        const userInfo = document.getElementById('userInfo');
+        const userNameElem = document.getElementById('userName');
+        const userVillageElem = document.getElementById('userVillage');
+
+        // Retrieve user name from localStorage
+        const userName = localStorage.getItem('userName');
+        if (userName) {
+            userNameElem.textContent = userName;
+        }
+
+        villageSelect.addEventListener('change', () => {
+            const selectedVillage = villageSelect.value;
+            const village = villageData[selectedVillage];
+            
+            if (village) {
+                villageInfo.classList.remove('hidden');
+                villageNameElem.textContent = village.name;
+                villageDescriptionElem.textContent = village.description;
+                
+                // Clear previous clan list
+                clanListElem.innerHTML = '';
+
+                // Populate clan list
+                village.clans.forEach(clan => {
+                    const li = document.createElement('li');
+                    li.textContent = clan;
+                    clanListElem.appendChild(li);
+                });
+
+                // Update user village in localStorage
+                localStorage.setItem('userVillage', village.name);
+                userVillageElem.textContent = village.name;
+
+                // Show user info section
+                userInfo.classList.remove('hidden');
+            } else {
+                villageInfo.classList.add('hidden');
+            }
+        });
+
+        function chooseVillage() {
+            const selectedVillage = villageSelect.value;
+            localStorage.setItem('ocVillage', selectedVillage);
+            window.location.href = 'rank.html'; // Replace with the rank page URL
+        }
+    </script>
+</body>
+</html>
