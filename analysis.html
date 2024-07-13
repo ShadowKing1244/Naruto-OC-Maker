@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naruto OC Analysis</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        #ocDetails {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        #story {
+            margin-top: 30px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Character Analysis</h1>
+        <div id="ocDetails">
+            <p><strong>Name:</strong> <span id="userName"></span></p>
+            <p><strong>Clan:</strong> <span id="userClan"></span></p>
+            <p><strong>Village:</strong> <span id="userVillage"></span></p>
+            <p><strong>Rank:</strong> <span id="ocRank"></span></p>
+            <p><strong>Feats:</strong></p>
+            <ul id="featList"></ul>
+        </div>
+        <div id="story">
+            <p id="ocStory"></p>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve user data from localStorage
+        const userName = localStorage.getItem('userName');
+        const userClan = localStorage.getItem('ocClan');
+        const userVillage = localStorage.getItem('userVillage');
+        const ocRank = localStorage.getItem('ocRank');
+        const feats = JSON.parse(localStorage.getItem('ocFeats'));
+
+        // Display user details
+        document.getElementById('userName').textContent = userName;
+        document.getElementById('userClan').textContent = userClan;
+        document.getElementById('userVillage').textContent = userVillage;
+        document.getElementById('ocRank').textContent = ocRank;
+
+        // Display feats
+        const featListElem = document.getElementById('featList');
+        feats.forEach(feat => {
+            const li = document.createElement('li');
+            li.textContent = feat;
+            featListElem.appendChild(li);
+        });
+
+        // Generate OC story based on details
+        const ocStoryElem = document.getElementById('ocStory');
+
+        // Custom stories based on feats and villages
+        switch (userVillage) {
+            case 'Konohagakure':
+                ocStoryElem.textContent = `${userName}, a proud member of the ${userClan} Clan from Konohagakure village, achieved the rank of ${ocRank}. Known for their bravery, ${userName} earned widespread acclaim for leading a successful mission against bandits, safeguarding Konohagakure's peace and prosperity.`;
+                break;
+            case 'Sunagakure':
+                ocStoryElem.textContent = `${userName}, a respected member of the ${userClan} Clan from Sunagakure village, reached the rank of ${ocRank}. Revered for their diplomatic prowess, ${userName} brokered a historic peace agreement between rival factions, cementing Sunagakure's stability and unity.`;
+                break;
+            case 'Kirigakure':
+                ocStoryElem.textContent = `${userName}, a skilled shinobi of the ${userClan} Clan from Kirigakure village, attained the rank of ${ocRank}. Renowned for their selflessness, ${userName} courageously shielded a teammate from a lethal attack, embodying Kirigakure's spirit of sacrifice and camaraderie.`;
+                break;
+            case 'Kumogakure':
+                ocStoryElem.textContent = `${userName}, a talented member of the ${userClan} Clan from Kumogakure village, rose to the rank of ${ocRank}. Celebrated for their heroism, ${userName} rescued a lost child, uniting them with their family and exemplifying Kumogakure's ethos of protection and compassion.`;
+                break;
+            case 'Amegakure':
+                ocStoryElem.textContent = `${userName}, a formidable shinobi of the ${userClan} Clan from Amegakure village, achieved the rank of ${ocRank}. Feared for their cunning, ${userName} orchestrated a daring betrayal, reshaping Amegakure's political landscape with a calculated move for power and influence.`;
+                break;
+            default:
+                ocStoryElem.textContent = `${userName}, a valiant member of the ${userClan} Clan from ${userVillage} village, ascended to the rank of ${ocRank}. Revered for their prowess and devotion, ${userName} forged a legacy through their remarkable deeds, etching their name into the annals of ninja history.`;
+        }
+    </script>
+</body>
+</html>
