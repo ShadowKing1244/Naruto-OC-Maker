@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naruto OC Creator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            background-image: url('https://cdn.discordapp.com/attachments/1253121180815331382/1261455753663877130/1104924-most-popular-naruto-team-7-wallpapers-1920x1080-for-phone.png?ex=669305b8&is=6691b438&hm=73b8df12a848a25def3cc9a2245b6f7c7f05bb33bf0368bd1a779043492cdcae&');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            width: 80%;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1em;
+            background-color: #3b5998;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2a4473;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Naruto OC Creator</h1>
+        <p>Enter your OC's first name:</p>
+        <input type="text" id="ocName" placeholder="First Name">
+        <br>
+        <button onclick="saveName()">Submit</button>
+    </div>
+
+    <script>
+        function saveName() {
+            const name = document.getElementById('ocName').value;
+            if (name) {
+                localStorage.setItem('ocName', name);
+                alert('Name saved!');
+                window.location.href = 'spinclan.html';
+            } else {
+                alert('Please enter a name.');
+            }
+        }
+    </script>
+</body>
+</html>
