@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naruto OC Creator - Spin for Rank</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            background-image: url('https://qph.cf2.quoracdn.net/main-qimg-6454e80838391dd1d0a0b64acbe6d1fe-lq');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1em;
+            background-color: #3b5998;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2a4473;
+        }
+
+        #userInfo {
+            font-size: 1.2em;
+            margin-top: 30px;
+        }
+
+        #userInfo span {
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Spin for Your Rank</h1>
+        <p>Click the button below to spin for your ninja rank:</p>
+        <button onclick="spinRank()">Spin for Rank</button>
+        <div id="rankInfo" class="hidden">
+            <h2 id="rankResult"></h2>
+            <p id="rankDescription"></p>
+            <button id="chooseRankBtn" onclick="chooseRank()" class="hidden">Choose this Rank</button>
+        </div>
+        <div id="userInfo" class="hidden">
+            <p>Your name: <span id="userName"></span></p>
+            <p>Your village: <span id="userVillage"></span></p>
+            <p>Your clan: <span id="userClan"></span></p>
+        </div>
+    </div>
+
+    <script>
+        const rankData = [
+            { name: "Genin", description: "The lowest rank of ninja. Typically assigned D-rank missions and act as apprentices under higher-ranked ninja." },
+            { name: "Chunin", description: "The middle rank of ninja. Considered to have adequate combat and tactical skill, and can lead small teams on missions." },
+            { name: "Jonin", description: "The high rank of ninja. Elite ninja who have exceptional skill and experience, and can lead larger teams on higher-ranked missions." },
+            { name: "Anbu", description: "An elite group of ninja who serve directly under their village's leader. They undertake high-risk missions with a focus on anonymity." },
+            { name: "Kage", description: "The highest rank in a village, held by the village leader who is typically the strongest ninja in the village." }
+        ];
+
+        const userNameElem = document.getElementById('userName');
+        const userVillageElem = document.getElementById('userVillage');
+        const userClanElem = document.getElementById('userClan');
+        const rankInfo = document.getElementById('rankInfo');
+        const rankResultElem = document.getElementById('rankResult');
+        const rankDescriptionElem = document.getElementById('rankDescription');
+        const userInfo = document.getElementById('userInfo');
+        const chooseRankBtn = document.getElementById('chooseRankBtn');
+
+        // Retrieve user data from localStorage
+        const userName = localStorage.getItem('userName');
+        const userVillage = localStorage.getItem('userVillage');
+        const userClan = localStorage.getItem('ocClan');
+
+        if (userName) {
+            userNameElem.textContent = userName;
+        }
+        if (userVillage) {
+            userVillageElem.textContent = userVillage;
+        }
+        if (userClan) {
+            userClanElem.textContent = userClan;
+        }
+
+        function spinRank() {
+            const randomIndex = Math.floor(Math.random() * rankData.length);
+            const selectedRank = rankData[randomIndex];
+            rankInfo.classList.remove('hidden');
+            rankResultElem.textContent = selectedRank.name;
+            rankDescriptionElem.textContent = selectedRank.description;
+            localStorage.setItem('ocRank', selectedRank.name);
+            chooseRankBtn.classList.remove('hidden'); // Show the choose button after spinning
+        }
+
+        function chooseRank() {
+            window.location.href = 'feats.html'; // Redirect to feats.html after choosing rank
+        }
+    </script>
+</body>
+</html>
