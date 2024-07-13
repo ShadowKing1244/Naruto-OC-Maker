@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naruto OC Creator - Spin Clan</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Serif JP', serif;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKYA4uHMaW7JkhaiBYFqUMBOsQ5-fUdoWfPw&s');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .clan-info {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .clan-name {
+            color: yellow;
+            font-size: 1.2em;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1em;
+            background-color: #3b5998;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2a4473;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Spin for Your Clan</h1>
+        <p>Spin to determine your Naruto OC's clan. You have 3 spins to get your desired clan.</p>
+        <button onclick="spin()">Spin</button>
+        <div id="spinsLeft">Spins left: 3</div>
+        <div id="clanResult"></div>
+        <button id="chooseBtn" style="display: none;" onclick="chooseClan()">Choose Clan</button>
+        <button id="villageBtn" style="display: none;" onclick="goToVillage()">Choose Village</button>
+    </div>
+
+    <script>
+        const clans = [
+            {
+                name: "Ōtsutsuki",
+                rarity: "Mythical",
+                attributes: "Extremely powerful chakra, longevity",
+                buffs: "High chakra reserves, enhanced physical abilities",
+                dojutsu: "Byakugan, Rinnegan",
+                chakraNature: "All chakra natures"
+            },
+            {
+                name: "Uchiha",
+                rarity: "Legendary",
+                attributes: "Strong chakra, sharingan",
+                buffs: "Enhanced perception, fire release proficiency",
+                dojutsu: "Sharingan, Mangekyō Sharingan",
+                chakraNature: "Fire"
+            },
+            {
+                name: "Senju",
+                rarity: "Legendary",
+                attributes: "High chakra levels, strong life force",
+                buffs: "Increased healing, wood release",
+                dojutsu: "None",
+                chakraNature: "Water, Earth"
+            },
+            {
+                name: "Hyuga",
+                rarity: "Legendary",
+                attributes: "Byakugan, advanced taijutsu skills",
+                buffs: "Enhanced vision, gentle fist fighting style",
+                dojutsu: "Byakugan",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Nara",
+                rarity: "Rare",
+                attributes: "Shadow manipulation",
+                buffs: "Strategic intellect, shadow possession jutsu",
+                dojutsu: "None",
+                chakraNature: "Yin"
+            },
+            {
+                name: "Akimichi",
+                rarity: "Rare",
+                attributes: "Calorie control, body expansion",
+                buffs: "Increased strength, multi-size technique",
+                dojutsu: "None",
+                chakraNature: "Yang"
+            },
+            {
+                name: "Yamanaka",
+                rarity: "Rare",
+                attributes: "Mind transfer techniques",
+                buffs: "Telepathy, sensory skills",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Inuzuka",
+                rarity: "Common",
+                attributes: "Enhanced senses, canine companions",
+                buffs: "Increased physical abilities, collaboration ninjutsu",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Aburame",
+                rarity: "Common",
+                attributes: "Insect manipulation",
+                buffs: "Insect-based techniques, chakra detection",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Uzumaki",
+                rarity: "Legendary",
+                attributes: "Strong life force, sealing techniques",
+                buffs: "Enhanced longevity, high chakra reserves",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Kurama",
+                rarity: "Common",
+                attributes: "Genjutsu specialization",
+                buffs: "Strong genjutsu abilities, mental manipulation",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Hagoromo",
+                rarity: "Common",
+                attributes: "Unknown",
+                buffs: "Average shinobi abilities",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Fūma",
+                rarity: "Common",
+                attributes: "Skilled in various ninja tools and weapons",
+                buffs: "Enhanced weapon proficiency",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Iburi",
+                rarity: "Common",
+                attributes: "Smoke transformation",
+                buffs: "Ability to turn into smoke",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Kaguya",
+                rarity: "Rare",
+                attributes: "Bone manipulation",
+                buffs: "Strong taijutsu abilities, bone-based attacks",
+                dojutsu: "None",
+                chakraNature: "Earth"
+            },
+            {
+                name: "Kamizuru",
+                rarity: "Common",
+                attributes: "Bee manipulation",
+                buffs: "Use of bees in combat",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            },
+            {
+                name: "Shiin",
+                rarity: "Common",
+                attributes: "Use of musical genjutsu",
+                buffs: "Sound-based attacks",
+                dojutsu: "None",
+                chakraNature: "Varies"
+            }
+        ];
+
+        let spins = 3;
+        let currentClan = null;
+
+        function spin() {
+            if (spins > 0) {
+                const randomIndex = Math.floor(Math.random() * clans.length);
+                currentClan = clans[randomIndex];
+                document.getElementById('clanResult').innerHTML = `
+                    <div class="clan-info">
+                        <p class="clan-name">${currentClan.name}</p>
+                        <p><strong>Rarity:</strong> ${currentClan.rarity}</p>
+                        <p><strong>Attributes:</strong> ${currentClan.attributes}</p>
+                        <p><strong>Buffs:</strong> ${currentClan.buffs}</p>
+                        <p><strong>Dojutsu:</strong> ${currentClan.dojutsu}</p>
+                        <p><strong>Chakra Nature:</strong> ${currentClan.chakraNature}</p>
+                    </div>
+                `;
+                spins--;
+                document.getElementById('spinsLeft').textContent = `Spins left: ${spins}`;
+                document.getElementById('chooseBtn').style.display = 'block';
+                document.getElementById('villageBtn').style.display = 'none'; // Hide village button after each spin
+            } else {
+                alert('No spins left!');
+            }
+        }
+
+        function chooseClan() {
+            if (currentClan) {
+                localStorage.setItem('ocClan', JSON.stringify(currentClan));
+                const name = localStorage.getItem('ocName');
+                document.getElementById('clanResult').innerHTML = `
+                    <div class="clan-info">
+                        <p class="clan-name">${name} of the ${currentClan.name} Clan</p>
+                        <p><strong>Rarity:</strong> ${currentClan.rarity}</p>
+                        <p><strong>Attributes:</strong> ${currentClan.attributes}</p>
+                        <p><strong>Buffs:</strong> ${currentClan.buffs}</p>
+                        <p><strong>Dojutsu:</strong> ${currentClan.dojutsu}</p>
+                        <p><strong>Chakra Nature:</strong> ${currentClan.chakraNature}</p>
+                    </div>
+                `;
+                document.getElementById('chooseBtn').style.display = 'none';
+                document.getElementById('villageBtn').style.display = 'block';
+            }
+        }
+
+        function goToVillage() {
+            window.location.href = 'village.html';
+        }
+    </script>
+</body>
+</html>
+
